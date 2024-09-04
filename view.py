@@ -61,42 +61,36 @@ def main(page: ft.Page):
         MyButton(text="Cancel", on_click=cancel_clicked),
     )
 
-    page.add(
-        Task(text="Do laundry"),
-        Task(text="Cook dinner"),
-    )   
+    # Botão dentro de um container com alinhamento ao centro
+    container_center = ft.Container(
+        content=ft.Button("Centralizado"),
+        alignment=ft.alignment.center,
+        width=200,
+        height=200,
+        bgcolor=ft.colors.LIGHT_BLUE
+    )
+    
+    # Botão dentro de um container com alinhamento à direita e no topo
+    container_right_top = ft.Container(
+        content=ft.Button("Direita Topo"),
+        alignment=ft.alignment.top_right,
+        width=200,
+        height=200,
+        bgcolor=ft.colors.LIGHT_GREEN
+    )
+    
+    # Botão dentro de um container com margem e padding personalizados
+    container_custom = ft.Container(
+        content=ft.Button("Customizado"),
+        padding=ft.EdgeInsets(10),
+        margin=ft.EdgeInsets.all(20),
+        alignment=ft.alignment.center,
+        width=200,
+        height=200,
+        bgcolor=ft.colors.LIGHT_CORAL
+    )
 
-class Task(ft.Row):
-    def __init__(self, text):
-        super().__init__()
-        self.text_view = ft.Text(text)
-        self.text_edit = ft.TextField(text, visible=False)
-        self.edit_button = ft.IconButton(icon=ft.icons.EDIT, on_click=self.edit)
-        self.save_button = ft.IconButton(
-            visible=False, icon=ft.icons.SAVE, on_click=self.save
-        )
-        self.controls = [
-            ft.Checkbox(),
-            self.text_view,
-            self.text_edit,
-            self.edit_button,
-            self.save_button,
-        ]
-
-    def edit(self, e):
-        self.edit_button.visible = False
-        self.save_button.visible = True
-        self.text_view.visible = False
-        self.text_edit.visible = True
-        self.update()
-
-    def save(self, e):
-        self.edit_button.visible = True
-        self.save_button.visible = False
-        self.text_view.visible = True
-        self.text_edit.visible = False
-        self.text_view.value = self.text_edit.value
-        self.update()
+    page.add(container_center, container_right_top, container_custom)
 
 class MyButton(ft.ElevatedButton):
     def __init__(self, text, on_click):
