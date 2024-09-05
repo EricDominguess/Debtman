@@ -5,26 +5,56 @@ def main(page: ft.Page):
     page.vertical_alignment = 'center'
     page.window_maximized = True
     page.window_resizable = False
+    
+    drawer = ft.NavigationDrawer(
+        bgcolor=ft.colors.GREEN_300,  # Cor do Drawer
+        controls=[
+
+            ft.Container(height = 50),
+
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.HOME,
+                label = "Home",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.LOCAL_ATM_ROUNDED,
+                label = "Registrar Dívidas",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.PERSON,
+                label = "Conta",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.LOGOUT,
+                label = "Logout",
+            )
+        ]
+    )
 
     def logar(e):
-        page.remove(register)
+        page.controls.clear()
         page.add(login)
         page.update()
 
+    def login_confirm(e):
+        page.controls.clear()
+        page.add(Home_page)
+        page.update()
+
     def registrar(e):
-        page.remove(login)
+        page.controls.clear()
         page.add(register)
         page.update()
 
     def Recuperar_senha_Log(e):
-        page.remove(login)
+        page.controls.clear()
         page.add(Redefinir_senha)
         page.update()
     
     def Recuperar_senha_Reg(e):
-        page.remove(register)
+        page.controls.clear()
         page.add(Redefinir_senha)
-        page.update
+        page.update()
 
     login = ft.Column([
         ft.Container(
@@ -100,8 +130,7 @@ def main(page: ft.Page):
 
                         ft.Row([
                             ft.IconButton(icon = ft.icons.EMAIL),
-                            ft.IconButton(icon = ft.icons.FACEBOOK),
-                            ft.IconButton(icon = ft.icons.TELEGRAM)
+                            ft.IconButton(icon = ft.icons.FACEBOOK)
                         ], alignment = 'center' )
 
                     ], horizontal_alignment = 'center')
@@ -289,7 +318,7 @@ def main(page: ft.Page):
                                     on_click = registrar)
                             ], width = 300, alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
 
-                        ], spacing = 8),
+                        ], spacing = 10),
                     
                     ], horizontal_alignment = 'center')
                 )
@@ -299,7 +328,23 @@ def main(page: ft.Page):
         )
     ])
 
-    page.add(login)
+    Home_page = ft.Column([
+        ft.Container(
+            bgcolor=ft.colors.GREY_500,
+            width=1910,
+            height=820,
+            border_radius=10,
+
+            # Definindo o conteúdo dentro do container
+            content=ft.Column([
+                ft.Text("Bem-vindo à Home Page", size=30, weight="bold"),
+                ft.ElevatedButton("Abrir Drawer", on_click=lambda e: page.open(drawer)),
+                # Outros componentes que quiser adicionar
+            ], horizontal_alignment='center', alignment='center')
+        )
+    ])
+
+    page.add(Home_page)
 
 if __name__ == "__main__":
     ft.app(target=main)
