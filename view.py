@@ -16,11 +16,21 @@ def main(page: ft.Page):
         page.add(register)
         page.update()
 
+    def Recuperar_senha_Log(e):
+        page.remove(login)
+        page.add(Redefinir_senha)
+        page.update()
+    
+    def Recuperar_senha_Reg(e):
+        page.remove(register)
+        page.add(Redefinir_senha)
+        page.update
+
     login = ft.Column([
         ft.Container(
             bgcolor = ft.colors.GREY_500,
             width = 1910,
-            height = 1030,
+            height = 820,
             border_radius = 10,
 
             content= ft.Column([
@@ -78,7 +88,9 @@ def main(page: ft.Page):
                             ),
 
                             ft.Row([
-                                ft.TextButton('Esqueci minha Senha'),
+                                ft.TextButton(
+                                    text ='Esqueci minha Senha',
+                                    on_click = Recuperar_senha_Log),
                                 ft.TextButton(
                                     text = 'Criar nova Conta',
                                     on_click = registrar)                   
@@ -105,7 +117,7 @@ def main(page: ft.Page):
         ft.Container(
             bgcolor = ft.colors.GREY_500,
             width = 1910,
-            height = 1030,
+            height = 820,
             border_radius = 10,
 
             content= ft.Column([
@@ -195,10 +207,86 @@ def main(page: ft.Page):
                             ),
 
                             ft.Row([
-                                ft.TextButton('Esqueci minha Senha'),
+                                ft.TextButton(
+                                    text ='Esqueci minha Senha',
+                                    on_click = Recuperar_senha_Reg),
                                 ft.TextButton(
                                     text = 'Já tenho uma Conta',
                                     on_click = logar)
+                            ], width = 300, alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
+
+                        ], spacing = 8),
+                    
+                    ], horizontal_alignment = 'center')
+                )
+
+            ],horizontal_alignment = 'center', alignment = 'center')
+
+        )
+    ])
+
+    Redefinir_senha = ft.Column([
+        ft.Container(
+            bgcolor = ft.colors.GREY_500,
+            width = 1910,
+            height = 820,
+            border_radius = 10,
+
+            content= ft.Column([
+                ft.Container(
+                    bgcolor = ft.colors.GREEN_200,
+                    width = 400,
+                    height = 280,
+                    border_radius = 10,
+
+                    content = ft.Column([
+                        ft.Container(
+                            padding = ft.padding.only(
+                                top = 10,
+                                bottom = 25
+                            ),   
+                        
+                            content = ft.Column([
+                                ft.Text(
+                                    value = 'Recuperar Senha',
+                                    weight = 'bold',
+                                    size = 20
+                                ),
+                                ft.Text(
+                                    value = 'Digite o Email registrado', 
+                                    weight = 'bold',
+                                    size = 15
+                                )
+
+                            ],horizontal_alignment = 'center')
+                        ),
+
+                        ft.Column([
+                            ft.TextField(
+                                hint_text = 'Digite o email de sua conta',
+                                width = 300,
+                                height = 40,
+                                border_radius = 40,
+                                prefix_icon = ft.icons.EMAIL,
+                                text_vertical_align= 1,
+                                keyboard_type = ft.KeyboardType.EMAIL
+                            ),
+
+                            ft.ElevatedButton(
+                                text = 'Send Email',
+                                bgcolor = ft.colors.GREEN_500,
+                                on_hover = ft.colors.GREEN_400,
+                                width = 300,
+                                height = 40
+                            ),
+
+                            ft.Row([
+                                ft.TextButton(
+                                    text = 'Já tenho uma Conta',
+                                    on_click = logar),
+                                ft.TextButton(
+                                    text = 'Criar nova Conta',
+                                    on_click = registrar)
                             ], width = 300, alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
 
                         ], spacing = 8),
