@@ -17,12 +17,28 @@ def main(page: ft.Page):
                 label = "Home",
             ),
             ft.NavigationDrawerDestination(
-                icon = ft.icons.LOCAL_ATM_ROUNDED,
+                icon = ft.icons.ATTACH_MONEY,
                 label = "Registrar Dívidas",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.PRICE_CHECK,
+                label = "Registrar Pagamento",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.MENU_BOOK_ROUNDED,
+                label = "Livro de Gastos",
             ),
             ft.NavigationDrawerDestination(
                 icon = ft.icons.PERSON,
                 label = "Conta",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.APARTMENT,
+                label = "Conta Empresarial",
+            ),
+            ft.NavigationDrawerDestination(
+                icon = ft.icons.MAN,
+                label = "Conta Pessoal",
             ),
             ft.NavigationDrawerDestination(
                 icon = ft.icons.LOGOUT,
@@ -292,7 +308,7 @@ def main(page: ft.Page):
 
                         ft.Column([
                             ft.TextField(
-                                hint_text = 'Digite o email de sua conta',
+                                hint_text = 'Digite seu email',
                                 width = 300,
                                 height = 40,
                                 border_radius = 40,
