@@ -1,62 +1,27 @@
-from pymongo import MongoClient
-from datetime import datetime
-from bson.objectid import ObjectId
-import hashlib
+import pymongo
+from werkzeug.security import generate_password_hash, check_password_hash
 
-# Simulação de uma sessão
-session = {}
+class UserModel:
+    def __init__(self):
+        # Conexão com o MongoDB
+        self.client = pymongo.MongoClient("mongodb://localhost:27017/")
+        self.db = self.client['meu_banco_de_dados']
+        self.collection = self.db['usuarios']
 
-def get_database():
-    CONNECTION_STRING = "mongodb+srv://user:pass@cluster.mongodb.net/myFirstDatabase"
-    client = MongoClient(CONNECTION_STRING)
-    return client['user_shopping_list']
+    def create_user(self, first_name, last_name, email, password):
+        # Criação de um novo usuário no banco de dados
+        user = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": email,
+            "password": generate_password_hash(password)
+        }
+        self.collection.insert_one(user)
 
-def create_user(db, username, password):
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    user = {
-        "username": username,
-        "password": hashed_password,
-        "created_at": datetime.now()
-    }
-    users_collection = db['users']
-    result = users_collection.insert_one(user)
-    return result.inserted_id
+    def get_user(self, email):
+        # Busca um usuário no banco de dados pelo email
+        return self.collection.find_one({"email": email})
 
-def validate_login(db, username, password):
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    users_collection = db['users']
-    user = users_collection.find_one({"username": username, "password": hashed_password})
-    if user:
-        session['user_id'] = user['_id']  # Armazena o ID do usuário na sessão
-        return True
-    return False
-
-def add_debit(db, amount, description):
-    if 'user_id' not in session:
-        raise Exception("Usuário não está logado")
-    
-    debit = {
-        "user_id": session['user_id'],  # Associa o débito ao usuário logado
-        "amount": amount,
-        "description": description,
-        "date": datetime.now()
-    }
-    debits_collection = db['debits']
-    result = debits_collection.insert_one(debit)
-    return result.inserted_id
-
-if __name__ == "__main__":   
-    dbname = get_database()
-    
-    # Criar um novo usuário
-    user_id = create_user(dbname, "username", "password123")
-    print(f"User created with ID: {user_id}")
-    
-    # Validar login
-    is_valid = validate_login(dbname, "username", "password123")
-    print(f"Login válido: {is_valid}")
-    
-    if is_valid:
-        # Inserir um débito
-        debit_id = add_debit(dbname, 100, "Compra no supermercado")
-        print(f"Debit inserted with ID: {debit_id}")
+    def verify_password(self, password_input, stored_password_hash):
+        # Verifica se a senha informada corresponde ao hash armazenado
+        return check_password_hash(stored_password_hash, password_input)

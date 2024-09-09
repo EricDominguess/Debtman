@@ -1,4 +1,9 @@
 import flet as ft
-from view import main
+from controller import Controller
 
-ft.app(main)
+def main(page: ft.Page):
+    controller = Controller(page)
+    controller.build()
+
+if __name__ == "__main__":
+    ft.app(target=main)
