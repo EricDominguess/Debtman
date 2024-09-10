@@ -1,74 +1,48 @@
 import flet as ft
+class MainView:
+    def render_drawer(self):
+        drawer = ft.NavigationDrawer(
+            bgcolor=ft.colors.GREEN_300,  # Cor do Drawer
+            controls=[
 
-#   page.horizontal_alignment = 'center'
-#   page.vertical_alignment = 'center'
-#   page.window_maximized = True
-#   page.window_resizable = False
-#
-#   drawer = ft.NavigationDrawer(
-#       bgcolor=ft.colors.GREEN_300,  # Cor do Drawer
-#       controls=[
-#
-#           ft.Container(height = 50),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.HOME,
-#               label = "Home",
-#           ),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.ATTACH_MONEY,
-#               label = "Registrar Dívidas",
-#           ),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.PRICE_CHECK,
-#               label = "Registrar Pagamento",
-#           ),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.MENU_BOOK_ROUNDED,
-#               label = "Livro de Gastos",
-#           ),
-#            ft.NavigationDrawerDestination(
-#               icon = ft.icons.PERSON,
-#               label = "Conta",
-#           ),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.APARTMENT,
-#               label = "Conta Empresarial",
-#           ),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.MAN,
-#               label = "Conta Pessoal",
-#           ),
-#           ft.NavigationDrawerDestination(
-#               icon = ft.icons.LOGOUT,
-#               label = "Logout",
-#           )
-#       ]
-#    )
-
-    def logar(e):
-        page.controls.clear()
-        page.add(login)
-        page.update()
-
-    def login_confirm(e):
-        page.controls.clear()
-        page.add(Home_page)
-        page.update()
-
-    def registrar(e):
-        page.controls.clear()
-        page.add(register)
-        page.update()
-
-    def Recuperar_senha_Log(e):
-        page.controls.clear()
-        page.add(Redefinir_senha)
-        page.update()
-    
-    def Recuperar_senha_Reg(e):
-        page.controls.clear()
-        page.add(Redefinir_senha)
-        page.update()
+                ft.Container(height = 50),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.HOME,
+                    label = "Home",
+                ),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.ATTACH_MONEY,
+                    label = "Registrar Dívidas",
+                ),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.PRICE_CHECK,
+                    label = "Registrar Pagamento",
+                ),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.MENU_BOOK_ROUNDED,
+                    label = "Livro de Gastos",
+                ),
+                    ft.NavigationDrawerDestination(
+                    icon = ft.icons.PERSON,
+                    label = "Conta",
+                ),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.APARTMENT,
+                    label = "Conta Empresarial",
+                ),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.MAN,
+                    label = "Conta Pessoal",
+                ),
+                ft.NavigationDrawerDestination(
+                    icon = ft.icons.LOGOUT,
+                    label = "Logout",
+                )
+            ]
+        )
+        return drawer
+    def render_screen(self, current_view):
+        return current_view
 
 class LoginView:
     def render_screen(self):
@@ -129,11 +103,9 @@ class LoginView:
                                 ),
                                 ft.Row([
                                     ft.TextButton(
-                                        text='Esqueci minha Senha',
-                                        on_click=self.Recuperar_senha_Log),
+                                        text='Esqueci minha Senha'),
                                     ft.TextButton(
-                                        text='Criar nova Conta',
-                                        on_click=self.registrar)
+                                        text='Criar nova Conta')
                                 ], width=300, alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
                             ], spacing=10),
                             ft.Row([
@@ -246,11 +218,9 @@ class RegisterView:
 
                                 ft.Row([
                                     ft.TextButton(
-                                        text ='Esqueci minha Senha',
-                                        on_click = Recuperar_senha_Reg),
+                                        text ='Esqueci minha Senha'),
                                     ft.TextButton(
-                                        text = 'Já tenho uma Conta',
-                                        on_click = logar)
+                                        text = 'Já tenho uma Conta')
                                 ], width = 300, alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
 
                             ], spacing = 8),
@@ -324,11 +294,9 @@ class ResetpassView:
 
                                 ft.Row([
                                     ft.TextButton(
-                                        text = 'Já tenho uma Conta',
-                                        on_click = logar),
+                                        text = 'Já tenho uma Conta'),
                                     ft.TextButton(
-                                        text = 'Criar nova Conta',
-                                        on_click = registrar)
+                                        text = 'Criar nova Conta')
                                 ], width = 300, alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
 
                             ], spacing = 10),
@@ -343,7 +311,7 @@ class ResetpassView:
 
         return Redefinir_senha
 
-class LoginView:
+class HomeView:
     def render_screen(self):
         Home_page = ft.Column([
             ft.Container(
@@ -355,7 +323,7 @@ class LoginView:
                 # Definindo o conteúdo dentro do container
                 content=ft.Column([
                     ft.Text("Bem-vindo à Home Page", size=30, weight="bold"),
-                    ft.ElevatedButton("Abrir Drawer", on_click=lambda e: page.open(drawer)),
+                    ft.ElevatedButton("Abrir Drawer"),
                     # Outros componentes que quiser adicionar
                 ], horizontal_alignment='center', alignment='center')
             )
