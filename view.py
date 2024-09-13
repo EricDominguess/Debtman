@@ -1,4 +1,17 @@
 import flet as ft
+from controller import *
+class MainEmpresa:
+    def render_screen(self):
+        return ft.Column([
+            ft.Text("Conta Empresarial", size=30, weight="bold"),
+            # Colocar os componentes da tela Empresarial
+        ])
+class MainPessoal:
+    def render_screen(self):
+        return ft.Column([
+            ft.Text("Conta Pessoal", size=30, weight="bold"),
+            # Colocar os componentes da tela Pessoal
+        ])
 class MainView:
     def render_drawer(self):
         drawer = ft.NavigationDrawer(
@@ -43,7 +56,6 @@ class MainView:
         return drawer
     def render_screen(self, current_view):
         return current_view
-
 class LoginView:
     def render_screen(self):
         # Estrutura da tela de login com Flet
@@ -119,7 +131,6 @@ class LoginView:
         ])
         
         return login
-
 class RegisterView:
     def render_screen(self):
         register = ft.Column([       
@@ -234,7 +245,6 @@ class RegisterView:
         ])
 
         return register
-
 class ResetpassView:
     def render_screen(self):
         Redefinir_senha = ft.Column([
@@ -310,7 +320,6 @@ class ResetpassView:
         ])
 
         return Redefinir_senha
-
 class HomeView:
     def render_screen(self):
         Home_page = ft.Column([
@@ -329,3 +338,75 @@ class HomeView:
             )
         ])
         return Home_page
+class RegistrarDiv:
+    def render_screen(self):
+        Reg_div = ft.Column([
+            ft.Container(
+                bgcolor=ft.colors.GREY_500,
+                width=1910,
+                height=820,
+                border_radius=10,
+
+                # Definindo o conteúdo dentro do container
+                content=ft.Column([
+                    ft.Text("Bem-vindo à Home Page", size=30, weight="bold"),
+                    ft.ElevatedButton("Abrir Drawer"),
+                    # Outros componentes que quiser adicionar
+                ], horizontal_alignment='center', alignment='center')
+            )
+        ])
+        return Reg_div
+class AtualizarDiv:
+    def render_screen(self):
+        Att_Div = ft.Column([
+            ft.Container(
+                bgcolor=ft.colors.GREY_500,
+                width=1910,
+                height=820,
+                border_radius=10,
+
+                # Definindo o conteúdo dentro do container
+                content=ft.Column([
+                    ft.Text("Bem-vindo à Home Page", size=30, weight="bold"),
+                    ft.ElevatedButton("Abrir Drawer"),
+                    # Outros componentes que quiser adicionar
+                ], horizontal_alignment='center', alignment='center')
+            )
+        ])
+        return Att_Div
+class ViewDid:
+    def render_screen(self):
+        view_div = ft.Column([
+            ft.Container(
+                bgcolor=ft.colors.GREY_500,
+                width=1910,
+                height=820,
+                border_radius=10,
+
+                # Definindo o conteúdo dentro do container
+                content=ft.Column([
+                    ft.Text("Bem-vindo à Home Page", size=30, weight="bold"),
+                    ft.ElevatedButton("Abrir Drawer"),
+                    # Outros componentes que quiser adicionar
+                ], horizontal_alignment='center', alignment='center')
+            )
+        ])
+        return view_div
+class Perfil:
+    def render_screen(self):
+        view_perfil = ft.Column([
+            ft.Container(
+                bgcolor=ft.colors.GREY_500,
+                width=1910,
+                height=820,
+                border_radius=10,
+
+                # Definindo o conteúdo dentro do container
+                content=ft.Column([
+                    ft.Text("Bem-vindo à Home Page", size=30, weight="bold"),
+                    ft.ElevatedButton("Abrir Drawer"),
+                    # Outros componentes que quiser adicionar
+                ], horizontal_alignment='center', alignment='center')
+            )
+        ])
+        return view_perfil
