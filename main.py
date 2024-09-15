@@ -11,7 +11,7 @@ def main(page: ft.Page):
     page.navigation_drawer = main_view.render_drawer()
 
     # Renderiza a primeira tela (Login)
-    current_view = controller.build("login")  # Corrigido: Passar a tela inicial
+    current_view = controller.build("login")
     page.add(main_view.render_screen(current_view))
 
     # Função de callback para o clique no drawer

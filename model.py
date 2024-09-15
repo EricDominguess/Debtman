@@ -31,7 +31,7 @@ def validate_login(db, username, password):
         return True
     return False
 
-def add_debit(db, amount, description):
+def add_debit(db, amount, description, due_date):
     if 'user_id' not in session:
         raise Exception("Usuário não está logado")
     
@@ -39,11 +39,18 @@ def add_debit(db, amount, description):
         "user_id": session['user_id'],  # Associa o débito ao usuário logado
         "amount": amount,
         "description": description,
-        "date": datetime.now()
+        "due_date": due_date,  # Adiciona a data de vencimento fornecida
+        "created_at": datetime.now()  # Adiciona a data de criação da dívida
     }
+    
     debits_collection = db['debits']
     result = debits_collection.insert_one(debit)
     return result.inserted_id
+
+def get_debits(db):
+    # Exemplo de consulta ao banco de dados para obter dívidas
+    collection = db['debits']
+    return list(collection.find())  # Retorna todas as dívidas
 
 if __name__ == "__main__":   
     dbname = get_database()
