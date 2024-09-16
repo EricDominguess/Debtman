@@ -15,12 +15,14 @@ class MainPessoal:
             # Colocar os componentes da tela Pessoal
         ])
 
+
 class MainView(ft.Column):
     def __init__(self, controller):
         super().__init__()
         self.controller = controller
-        self.current_view = HomeView().render_screen()
-        self.update_ui()
+        # Evite importações no nível superior, se possível
+        from controller import Controller
+
 
     def update_ui(self):
         self.controls = [
@@ -77,6 +79,7 @@ class MainView(ft.Column):
             ]
         )
         return drawer
+    
 
 class LoginView:
     def render_screen(self):
@@ -128,11 +131,11 @@ class LoginView:
                                 ft.Row([
                                     ft.TextButton(
                                         text='Esqueci minha Senha',
-                                        on_click=lambda e: controller.transition_to("reset_pass")
+                                        on_click=lambda e: self.controller.transition_to("reset_pass")
                                     ),
                                     ft.TextButton(
                                         text='Criar nova Conta',
-                                        on_click=lambda e: controller.transition_to("register")
+                                        on_click=lambda e: self.controller.transition_to("register")
                                     )
                                 ], width=300, alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
                             ], spacing=10),
@@ -279,7 +282,6 @@ class ResetpassView:
                 ], horizontal_alignment='center', alignment='center')
             )
         ])
-
 class HomeView:
     def render_screen(self):
         return ft.Column([
@@ -298,54 +300,52 @@ class HomeView:
 
 class RegistrarDiv:
     def render_screen(self):
-        dividas = add_debit(get_database())
-        rows = [ft.DataRow(cells=[
-            ft.DataCell(ft.Text(divida['description'])),
-            ft.DataCell(ft.Text(f"R${divida['amount']}")),
-            ft.DataCell(ft.Text(divida['due_date']))
-        ]) for divida in dividas]
-
         return ft.Column([
             ft.Container(
-                content=ft.DataTable(columns=[
-                    ft.DataColumn(ft.Text("Descrição")),
-                    ft.DataColumn(ft.Text("Valor")),
-                    ft.DataColumn(ft.Text("Data Limite"))
-                ], rows=rows),
-                alignment='center'
-            )
-        ])
-
-    def __init__(self):
-        self.db = get_database
-
-    def __init__(self):
-        super().__init__()
-        self.db = get_database
-        self.update_table()
-
-    def update_table(self):
-        dividas = add_debit(self.db)
-        rows = [ft.DataRow(cells=[
-            ft.DataCell(ft.Text(divida['description'])),
-            ft.DataCell(ft.Text(f"R$ {divida['amount']}")),
-            ft.DataCell(ft.Text(divida['date'].strftime('%d/%m/%Y')))
-        ]) for divida in dividas]
-        self.content = ft.Column([
-            ft.Text("Caderno de Dívidas", size=30, weight="bold"),
-            ft.DataTable(
-                columns=[
-                    ft.DataColumn(ft.Text("Descrição")),
-                    ft.DataColumn(ft.Text("Valor")),
-                    ft.DataColumn(ft.Text("Data"))
-                ],
-                rows=rows
+                bgcolor=ft.colors.GREY_500,
+                width=1910,
+                height=820,
+                border_radius=10,
+                content=ft.Column([
+                    ft.Text("Registrar Dívida", size=30, weight="bold"),
+                    # Form for registering debts
+                    ft.TextField(
+                        hint_text='Descrição da Dívida',
+                        width=300,
+                        height=40,
+                        border_radius=40,
+                        prefix_icon=ft.icons.DESCRIPTION
+                    ),
+                    ft.TextField(
+                        hint_text='Valor da Dívida',
+                        width=300,
+                        height=40,
+                        border_radius=40,
+                        prefix_icon=ft.icons.MONEY,
+                        keyboard_type=ft.KeyboardType.NUMBER
+                    ),
+                    ft.TextField(
+                        hint_text='Data de Vencimento',
+                        width=300,
+                        height=40,
+                        border_radius=40,
+                        prefix_icon=ft.icons.DATE_RANGE,
+                        keyboard_type=ft.KeyboardType.DATETIME
+                    ),
+                    ft.ElevatedButton(
+                        text='Registrar Dívida',
+                        bgcolor=ft.colors.GREEN_500,
+                        on_hover=ft.colors.GREEN_400,
+                        width=300,
+                        height=40
+                    )
+                ], horizontal_alignment='center', alignment='center')
             )
         ])
     
+
 class AtualizarDiv:
     def render_screen(self):
-        # Estrutura para a tela de Atualizar Dívida
         return ft.Column([
             ft.Container(
                 bgcolor=ft.colors.GREY_500,
@@ -354,15 +354,16 @@ class AtualizarDiv:
                 border_radius=10,
                 content=ft.Column([
                     ft.Text("Atualizar Dívida", size=30, weight="bold"),
+                    # Form for updating debts
                     ft.TextField(
-                        hint_text='Digite a descrição da dívida',
+                        hint_text='Descrição da Dívida',
                         width=300,
                         height=40,
                         border_radius=40,
                         prefix_icon=ft.icons.DESCRIPTION
                     ),
                     ft.TextField(
-                        hint_text='Digite o valor atualizado',
+                        hint_text='Valor Atualizado',
                         width=300,
                         height=40,
                         border_radius=40,
@@ -370,7 +371,7 @@ class AtualizarDiv:
                         keyboard_type=ft.KeyboardType.NUMBER
                     ),
                     ft.TextField(
-                        hint_text='Digite a nova data de vencimento',
+                        hint_text='Nova Data de Vencimento',
                         width=300,
                         height=40,
                         border_radius=40,
@@ -387,34 +388,39 @@ class AtualizarDiv:
                 ], horizontal_alignment='center', alignment='center')
             )
         ])
-    
+
 class ViewDiv:
     def render_screen(self):
-        # Função correta para obter as dívidas do banco de dados
-        dividas = get_debits(get_database())  # Ajuste para obter as dívidas já registradas
-        
-        rows = [ft.DataRow(cells=[
-            ft.DataCell(ft.Text(divida['description'])),
-            ft.DataCell(ft.Text(f"R$ {divida['amount']}")),
-            ft.DataCell(ft.Text(divida['due_date'].strftime('%d/%m/%Y')))
-        ]) for divida in dividas]
-
+        # Placeholder for displaying registered debts
         return ft.Column([
             ft.Container(
+                bgcolor=ft.colors.GREY_500,
+                width=1910,
+                height=820,
+                border_radius=10,
                 content=ft.Column([
                     ft.Text("Tabela de Dívidas", size=30, weight="bold"),
-                    ft.DataTable(columns=[
-                        ft.DataColumn(ft.Text("Descrição")),
-                        ft.DataColumn(ft.Text("Valor")),
-                        ft.DataColumn(ft.Text("Data de Vencimento"))
-                    ], rows=rows)
-                ]),
-                alignment='center'
+                    # DataTable placeholder without actual data
+                    ft.DataTable(
+                        columns=[
+                            ft.DataColumn(ft.Text("Descrição")),
+                            ft.DataColumn(ft.Text("Valor")),
+                            ft.DataColumn(ft.Text("Data de Vencimento"))
+                        ],
+                        rows=[
+                            # Example row, replace with actual data rows
+                            ft.DataRow(cells=[
+                                ft.DataCell(ft.Text("Descrição da Dívida")),
+                                ft.DataCell(ft.Text("R$ 0.00")),
+                                ft.DataCell(ft.Text("00/00/0000"))
+                            ])
+                        ]
+                    )
+                ], horizontal_alignment='center', alignment='center')
             )
         ])
 class Perfil:
     def render_screen(self):
-        # Estrutura para a tela do perfil do usuário
         return ft.Column([
             ft.Container(
                 bgcolor=ft.colors.GREY_500,

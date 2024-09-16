@@ -3,6 +3,8 @@ from view import *
 
 class Controller:
     def __init__(self):
+        from view import MainView
+        self.main_view = MainView(self)
         self.views = {
             "home": HomeView(),
             "registrar_div": RegistrarDiv(),
