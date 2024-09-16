@@ -1,20 +1,22 @@
 from pymongo import MongoClient
 from datetime import datetime
 from bson.objectid import ObjectId
-import hashlib
+import bcrypt
 
 # Simulação de uma sessão
 session = {}
 
 def get_database():
-    CONNECTION_STRING = "mongodb+srv://user:pass@cluster.mongodb.net/myFirstDatabase"
+    CONNECTION_STRING = "mongodb://localhost:27017/"
     client = MongoClient(CONNECTION_STRING)
-    return client['user_shopping_list']
+    return client['debitman']
 
-def create_user(db, username, password):
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+def create_user(db, first_name, last_name, email, password):
+    hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     user = {
-        "username": username,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
         "password": hashed_password,
         "created_at": datetime.now()
     }
@@ -23,11 +25,10 @@ def create_user(db, username, password):
     return result.inserted_id
 
 def validate_login(db, username, password):
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
     users_collection = db['users']
-    user = users_collection.find_one({"username": username, "password": hashed_password})
-    if user:
-        session['user_id'] = user['_id']  # Armazena o ID do usuário na sessão
+    user = users_collection.find_one({"username": username})
+    if user and bcrypt.checkpw(password.encode(), user['password']):
+        session['user_id'] = user['_id']
         return True
     return False
 
@@ -35,12 +36,17 @@ def add_debit(db, amount, description, due_date):
     if 'user_id' not in session:
         raise Exception("Usuário não está logado")
     
+    try:
+        due_date = datetime.strptime(due_date, "%d/%m/%Y")
+    except ValueError:
+        raise Exception("Data de vencimento inválida")
+
     debit = {
-        "user_id": session['user_id'],  # Associa o débito ao usuário logado
+        "user_id": session['user_id'],
         "amount": amount,
         "description": description,
-        "due_date": due_date,  # Adiciona a data de vencimento fornecida
-        "created_at": datetime.now()  # Adiciona a data de criação da dívida
+        "due_date": due_date,
+        "created_at": datetime.now()
     }
     
     debits_collection = db['debits']
