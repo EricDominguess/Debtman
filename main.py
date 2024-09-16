@@ -3,7 +3,7 @@ from controller import Controller
 
 def main(page: ft.Page):
     controller = Controller(page)
-    page.controls.append(controller.build("register"))
+    page.controls.append(controller.build("login"))
     page.update()
 
 ft.app(target=main)
